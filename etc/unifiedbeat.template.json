@@ -1,0 +1,452 @@
+{
+  "template": "unifiedbeat-*",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0,
+    "index.refresh_interval": "5s",
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "type": "standard",
+          "stopwords": "_none_"
+        }
+      }
+    }
+  },
+  "mappings" : {
+    "_default_" : {
+      "_all" : {
+        "enabled" : true
+      },
+      "dynamic_templates" : [
+        {
+          "string_fields" : {
+            "match" : "*",
+            "match_mapping_type" : "string",
+            "mapping" : {
+              "type" : "string",
+              "index" : "analyzed",
+              "omit_norms" : true,
+              "fielddata" : { "format" : "disabled" },
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "doc_values" : true,
+                  "ignore_above" : 256
+                }
+              }
+            }
+          }
+        }
+      ],
+      "properties" : {
+        "beat" : {
+          "properties" : {
+            "hostname" : {
+              "type" : "string",
+              "index" : "analyzed",
+              "omit_norms" : true,
+              "fielddata" : { "format" : "disabled" },
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "doc_values" : true,
+                  "ignore_above" : 256
+                }
+              }
+            },
+            "name" : {
+              "type" : "string",
+              "index" : "analyzed",
+              "omit_norms" : true,
+              "fielddata" : { "format" : "disabled" },
+              "fields" : {
+                "raw" : {
+                  "type" : "string",
+                  "index" : "not_analyzed",
+                  "doc_values" : true,
+                  "ignore_above" : 256
+                }
+              }
+            }
+          }
+        },
+        "@timestamp" : { "type" : "date" },
+        "indexed_at" : { "type" : "date" },
+        "type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "record_type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "input_type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "event_id" : { "type" : "long" },
+        "event_second" : { "type" : "long" },
+        "sensor_id" : { "type" : "long" },
+        "sensor_hostname" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "sensor_interface" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "sensor_type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "source" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "offset" : { "type" : "long" },
+        "blocked" : { "type" : "long" },
+        "classification_id" : { "type" : "long" },
+        "dport" : { "type" : "long" },
+        "dst_ip" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "dst_ipv4" : { "type" : "ip" },
+        "dst_ipv6" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "dst_location" : { "type" : "geo_point" },
+        "dst_country_code" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "event_microsecond" : { "type" : "long" },
+        "generator_id" : { "type" : "long" },
+        "impact" : { "type" : "long" },
+        "impact_flag" : { "type" : "long" },
+        "input_type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "mpls_label" : { "type" : "long" },
+        "priority" : { "type" : "long" },
+        "protocol" : { "type" : "long" },
+        "rule_raw" : { "type" : "string" },
+        "rule_source_file" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "rule_source_file_line_number" : { "type" : "long" },
+        "signature" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "signature_id" : { "type" : "long" },
+        "signature_revision" : { "type" : "long" },
+        "sport" : { "type" : "long" },
+        "src_ip" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "src_ipv4" : { "type" : "ip" },
+        "src_ipv6" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "src_location" : { "type" : "geo_point" },
+        "src_country_code" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "vlan_id" : { "type" : "long" },
+        "ethernet_dst_mac" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ethernet_length" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ethernet_src_mac" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ethernet_type" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ip_checksum" : { "type" : "long" },
+        "ip_dst_ip" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ip_flags" : { "type" : "long" },
+        "ip_fragoffset" : { "type" : "long" },
+        "ip_id" : { "type" : "long" },
+        "ip_ihl" : { "type" : "long" },
+        "ip_length" : { "type" : "long" },
+        "ip_protocol" : { "type" : "long" },
+        "ip_src_ip" : {
+          "type" : "string",
+          "index" : "analyzed",
+          "omit_norms" : true,
+          "fielddata" : { "format" : "disabled" },
+          "fields" : {
+            "raw" : {
+              "type" : "string",
+              "index" : "not_analyzed",
+              "doc_values" : true,
+              "ignore_above" : 256
+            }
+          }
+        },
+        "ip_tos" : { "type" : "long" },
+        "ip_ttl" : { "type" : "long" },
+        "ip_version" : { "type" : "long" },
+        "packet_data" : { "type" : "string" },
+        "packet_data_hex" : { "type" : "string" },
+        "packet_dump" : { "type" : "string" },
+        "packet_layers" : { "type" : "string" },
+        "packet_length" : { "type" : "long" },
+        "packet_link_type" : { "type" : "long" },
+        "packet_microsecond" : { "type" : "long" },
+        "packet_payload" : { "type" : "string" },
+        "packet_second" : { "type" : "long" },
+        "tcp_ack" : { "type" : "boolean" },
+        "tcp_checksum" : { "type" : "long" },
+        "tcp_cwr" : { "type" : "boolean" },
+        "tcp_data_offset" : { "type" : "long" },
+        "tcp_dst_port" : { "type" : "long" },
+        "tcp_ece" : { "type" : "boolean" },
+        "tcp_fin" : { "type" : "boolean" },
+        "tcp_ns" : { "type" : "boolean" },
+        "tcp_psh" : { "type" : "boolean" },
+        "tcp_rst" : { "type" : "boolean" },
+        "tcp_seq" : { "type" : "long" },
+        "tcp_src_port" : { "type" : "long" },
+        "tcp_syn" : { "type" : "boolean" },
+        "tcp_urg" : { "type" : "boolean" },
+        "tcp_urgent" : { "type" : "long" },
+        "tcp_window" : { "type" : "long" },
+        "udp_checksum" : { "type" : "long" },
+        "udp_dst_port" : { "type" : "long" },
+        "udp_length" : { "type" : "long" },
+        "udp_src_port" : { "type" : "long" }
+      }
+    }
+  }
+}
