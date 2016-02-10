@@ -46,8 +46,12 @@ the November 2015 github repository.
 1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typically done
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
   * typically this command would be in a systemd, Upstart, or SysV (init.d) script
-  * for a quick test use: ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
-1. now, use Kibana to see what's up with your host and network
+  * for a quick test use:
+    * ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
+    * ```ps aux | grep -i unifiedbeat``` ... remember it's pid, so you can kill it
+    * use curl, sense, or kibana to look at the indices in elasticsearch
+    * ```kill ?pid?``` ... when done testing
+1. now, use Kibana or a custom app to see what's up with your host and network
 
 ***
 
