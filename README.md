@@ -51,7 +51,7 @@ the November 2015 github repository.
     * ```ps aux | grep -i unifiedbeat``` ... remember it's pid, so you can kill it
     * use curl, sense, or kibana to look at the indices in elasticsearch
     * ```kill ?pid?``` ... when done testing
-1. now, use Kibana or a custom app to see what's up with your host and network
+1. now, use Kibana or a custom app to see what's up with your host and network ... sleep better at night
 
 ***
 
