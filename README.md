@@ -8,7 +8,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 This project is the modification of a [Filebeat](https://github.com/elastic/filebeat) clone from
 the November 2015 github repository.
 
-> #### Info
+> #### More
 >
 > * [Protect the Box](https://medium.com/@cleesmith/protect-the-box-c245acbaae81#.59j14oijl)
 
