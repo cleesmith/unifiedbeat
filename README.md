@@ -14,12 +14,11 @@ the November 2015 github repository.
 
 ***
 
-### January 17, 2016
+### February 8, 2016
 
 #### Usage
 
-1. download a linux 64bit [release](https://github.com/cleesmith/unifiedbeat/releases)
-1. or, if you wish to build from source:
+1. build from source:
   * ```git clone https://github.com/cleesmith/unifiedbeat```
   * ```cd unifiedbeat```
   * godep usage:
