@@ -25,15 +25,14 @@ the November 2015 github repository.
     * ```export GO15VENDOREXPERIMENT=1```
     * ```godep save```
   * ```go build```
-    * if building on linux 64bit platform, or if building on mac/windows do:
+    * if building for linux 64bit platform but on a mac do the following to cross-compile:
       * ```env GOOS=linux GOARCH=amd64 go build```
-  * copy/scp unifiedbeat binary file to the server with unified2 files to be indexed
 1. ```mkdir unifiedbeat```
 1. ```cd unifiedbeat```
 1. copy or scp the unifiedbeat binary file to the unifiedbeat folder
 1. ```curl -XPUT 'http://localhost:9200/_template/unifiedbeat' -d@etc/unifiedbeat.template.json```
 1. ```rm .unifiedbeat``` if exists ... this file tracks the previous positions within the unified2 files being tailed and indexed
-1. ```nano or vim etc/unifiedbeat.yml``` then change:
+1. ```nano or vim etc/unifiedbeat.yml``` then change YAML configuration file:
   * unifiedbeat:
     * rules:
       * gen_msg_map_path: **?**  _# the absolute full path, typically: /etc/snort/gen-msg.map_
@@ -48,7 +47,7 @@ the November 2015 github repository.
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
   * typically this command would be in a systemd, Upstart, or SysV (init.d) script
   * for a quick test use: ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
-1. now, use Kibana to see what's up with your server and network
+1. now, use Kibana to see what's up with your host and network
 
 ***
 
