@@ -41,6 +41,7 @@ func NewHarvester(
 func (h *Harvester) Harvest() {
 	// a harvester is launched for each file found by a prospector
 	h.setFileOffset()
+	// via "github.com/jasonish/go-unified2":
 	reader, err := unified2.NewRecordReader(h.Path, h.Offset)
 	if err != nil {
 		logp.Err("Stop Harvesting. Unexpected Error: %s", err)
@@ -69,6 +70,7 @@ func (h *Harvester) Harvest() {
 	// //      timedReader provides timestamp some bytes have actually been read from file
 	lastReadTime := time.Now()
 
+	// next record loop:
 	for {
 		record, err := reader.Next() // returns an interface{}
 		h.Offset = reader.Offset()
@@ -77,6 +79,7 @@ func (h *Harvester) Harvest() {
 				logp.Err("File reading error. Stopping harvester. Error: %s", err)
 				return
 			}
+			// hit EOF continue to next record loop:
 			continue
 		}
 
