@@ -21,9 +21,6 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 1. build from source:
   * ```git clone https://github.com/cleesmith/unifiedbeat```
   * ```cd unifiedbeat```
-  * godep usage:
-    * ```export GO15VENDOREXPERIMENT=1```
-    * ```godep save```
   * ```go build```
     * if building for linux 64bit platform but on a mac do the following to cross-compile:
       * ```env GOOS=linux GOARCH=amd64 go build```
@@ -34,7 +31,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 1. ```rm .unifiedbeat``` if exists ... this file tracks the previous positions within the unified2 files being tailed and indexed
 1. ```nano or vim etc/unifiedbeat.yml``` then change YAML configuration file:
   * sensor:
-    * unified2_path: **?**  _# where are the unfied2 files, typically: /var/log/snort/snort.log*_
+    * unified2_path: **?**  _# where are the unified2 files, typically: /var/log/snort/snort.log*_
     * unified2_prefix: "snort.log"
     * rules:
       * gen_msg_map_path: **?**  _# the absolute full path, typically: /etc/snort/gen-msg.map_
@@ -53,12 +50,6 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * use curl, sense, or kibana to look at the indices in elasticsearch
     * ```kill ?pid?``` ... when done testing
 1. now, use Kibana or a custom app daily to see what's up with your host and network ... sleep better at night
-
-***
-
-#### Overview
-
-![Overview](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/unifiedbeat.png "overview of unifiedbeat processing")
 
 ***
 
