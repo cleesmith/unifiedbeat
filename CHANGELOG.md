@@ -27,7 +27,7 @@
   * 4. [go-unified2](https://github.com/cleesmith/go-unified2) -- to read and spool unified2 files
     * this is a fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
-      * updates a **bookmark** file -- **.unifiedbeat**
+      * to update a **bookmark** file -- **.unifiedbeat**
       * which tracks the **offset** into the unified2 file that's currently being tailed
       * the bookmark file is only written to disk upon _graceful_ program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
