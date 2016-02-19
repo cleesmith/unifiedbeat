@@ -32,10 +32,14 @@
       * the bookmark file is only written to disk upon _graceful_ program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
-* concerns/todo's:
+* todo's:
+  * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
+  * ~~create a Linux 64bit binary release file~~
+* concerns:
+  * deleting the unified2 being tailed causes unifiedbeat to exit immediately
+    * why or how would this ever occur?
   * don't ```wget https://github.com/cleesmith/unifiedbeat/blob/master/var/GeoIP/GeoLite2-City.mmdb```
     * instead download **GeoLite2 City** database from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geolite2/)
-  * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
   * how to install/upgrade Go
     * without using gvm, but manually
   * how to best handle dependencies:
