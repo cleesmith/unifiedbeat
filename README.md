@@ -46,8 +46,8 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
       * **hosts**: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
 1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typical
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
-  * typically this command would be in a systemd, Upstart, or SysV (init.d) script
-  * for a quick test use:
+  * this command should be in a systemd, Upstart, or SysV (init.d) script
+  * but for a quick test do:
     * ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
     * ```ps aux | grep -i unifiedbeat``` ... remember it's pid, so you can kill it
     * use curl, sense, or kibana to look at the indices in elasticsearch
