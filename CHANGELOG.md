@@ -19,7 +19,7 @@
   * it is much simpler, more readable, and more appropriate for unified2 files
   * the issue with excessive CPU usage (_70+% on all cores_) has disappeared
 * followed the [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
-* upgraded to Go 1.5.3 (_of course, 1.6 was just released_)
+* upgraded to Go 1.5.3 (_sheesh! 1.6 was just released_)
 * dependencies:
   * [libbeat](https://github.com/elastic/beats/tree/master/libbeat)
   * [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
