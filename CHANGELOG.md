@@ -23,6 +23,7 @@
 * dependencies:
   * [libbeat](https://github.com/elastic/beats/tree/master/libbeat)
   * [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
+  * [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
   * [go-unified2](https://github.com/cleesmith/go-unified2)
     * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
