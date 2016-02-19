@@ -25,7 +25,7 @@
   * 2. [gopacket](https://github.com/google/gopacket) -- for the ```packet_dump``` field with it's thorough packet details
   * 3. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
   * 4. [go-unified2](https://github.com/cleesmith/go-unified2) -- to read and spool unified2 files
-    * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
+    * this is a fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
       * updates a **bookmark** file -- **.unifiedbeat**
       * which tracks the **offset** into the unified2 file that's currently being tailed
