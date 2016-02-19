@@ -8,6 +8,13 @@
 
 * deleted all of the existing code
   * because it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
+  * originally, cloning filebeat was a good choice
+    * given a server might be used to monitor data from multiple sensors
+    * however, it is **much simpler to just execute a unifiedbeat process** for each sensor
+    * after all, each sensor:
+      * may have a different set of rules
+      * different file locations and prefix names
+      * can be monitored and managed (start/stop/archived) individually
 * designed and rewrote the entire project
   * it is much simpler, more readable, and more appropriate for unified2 files
   * the issue with excessive CPU usage (_70+% on all cores_) has disappeared
