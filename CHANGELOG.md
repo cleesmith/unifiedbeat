@@ -24,7 +24,7 @@
   * 1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat) -- _to beat, or not to beat ..._
   * 2. [gopacket](https://github.com/google/gopacket) -- for the ```packet_dump``` field with it's thorough packet details
   * 3. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
-  * 4. [go-unified2](https://github.com/cleesmith/go-unified2)
+  * 4. [go-unified2](https://github.com/cleesmith/go-unified2) -- to read and spool unified2 files
     * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
       * updates a **bookmark** file -- **.unifiedbeat**
