@@ -56,6 +56,12 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 
 ***
 
+#### Overview
+
+![Overview](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/unifiedbeat.png "overview of unifiedbeat")
+
+***
+
 ### Kibana screenshots
 
 ![Dashboard](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/kibana_dashboard.png "example Kibana dashboard")
