@@ -52,7 +52,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * ```ps aux | grep -i unifiedbeat``` ... remember it's **pid**, so you can kill it later
     * use curl, sense, or kibana to look at the indices in elasticsearch
     * ```kill ?pid?``` ... when done testing
-1. now, use Kibana or a custom app daily to see what's up with your host and network, and sleep better at night
+1. now, use Kibana to see what's up with your host and network, then sleep better at night
 
 ***
 
