@@ -57,7 +57,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 #### WARNING
 
 > * do not run unifiedbeat on Security Onion
-    * unless ElasticSearch is running on the same server
+    * unless ElasticSearch is running on the same server, as in ```127.0.0.1:9200```
     * unless you stop Snort first, to stop do ```sudo nsm_sensor_ps-stop```
     * otherwise, snort triggers an alert for every request/response to/from ElasticSearch
     * otherwise, there is an endless loop of indexing and it can never catch up
