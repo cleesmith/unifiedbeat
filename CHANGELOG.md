@@ -34,7 +34,7 @@
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 * todo's:
   * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
-  * ~~create a Linux 64bit binary release file~~ [done Feb 19, 2016]
+  * ~~create a Linux 64bit binary release file~~ [_done Feb 19, 2016_]
 * concerns:
   * deleting the unified2 being tailed causes unifiedbeat to exit immediately
     * why or how would this ever occur?
