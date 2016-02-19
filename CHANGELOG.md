@@ -44,8 +44,9 @@
   * don't run unifiedbeat on Security Onion unless you stop Snort first
     * to stop Snort do ```sudo nsm_sensor_ps-stop```
     * otherwise, snort triggers an alert for every request/response to/from ElasticSearch
-    * so we end up with an endless loop of indexing and can never catch up
+    * otherwise, there is an endless loop of indexing and we can never catch up
     * or edit the rules to not trigger these alerts
+    * this is another good reason to keep elasticsearch on the same server with the sensor data
 
 ***
 
