@@ -54,6 +54,17 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * ```kill ?pid?``` ... when done testing
 1. now, use Kibana to see what's up with your host and network, then sleep better at night
 
+#### WARNING
+
+* do not run unifiedbeat on Security Onion unless you stop Snort first
+  * to stop Snort do ```sudo nsm_sensor_ps-stop```
+  * otherwise, snort triggers an alert for every request/response to/from ElasticSearch
+  * otherwise, there is an endless loop of indexing and it can never catch up
+  * or edit the rules to not trigger these alerts (_probably not a good idea_)
+  * this is another good reason to keep elasticsearch on the same server with the sensor data
+  * this may also be true if you are forwarding to Logstash (_this was not tested_)
+  * this may be true for other sensor setups
+
 ***
 
 #### Overview
