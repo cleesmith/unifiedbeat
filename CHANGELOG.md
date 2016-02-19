@@ -31,6 +31,7 @@
       * the bookmark file is only written to disk upon program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
 * concerns/todo's:
+  * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
   * how to install/upgrade Go
     * without using gvm, but manually
   * how to best handle dependencies:
