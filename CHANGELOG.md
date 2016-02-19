@@ -38,6 +38,8 @@
 * concerns:
   * deleting the unified2 being tailed causes unifiedbeat to exit immediately
     * why or how would this ever occur?
+    * occurs in ```spoolrecordreader.go``` ```Name()``` func
+      * error message is _Next: unexpected error reading from..._
   * don't ```wget https://github.com/cleesmith/unifiedbeat/blob/master/var/GeoIP/GeoLite2-City.mmdb```
     * instead download **GeoLite2 City** database from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geolite2/)
   * how to install/upgrade Go
