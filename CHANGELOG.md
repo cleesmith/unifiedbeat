@@ -21,10 +21,10 @@
 * followed the [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
 * upgraded to Go 1.5.3 (_sheesh! 1.6 was just released_)
 * dependencies:
-  1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat) -- to be a beat
-  1. [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
-  1. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
-  1. [go-unified2](https://github.com/cleesmith/go-unified2)
+  * 1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat) -- to be a beat
+  * 2. [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
+  * 3. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
+  * 4. [go-unified2](https://github.com/cleesmith/go-unified2)
     * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
       * updates a **bookmark** file -- **.unifiedbeat**
