@@ -14,7 +14,7 @@
     * after all, each sensor:
       * may have a different set of rules
       * different file locations and prefix names
-      * can be monitored and managed (start/stop/archived) individually
+      * can be monitored and managed (_started, stopped, or archived_) individually
 * designed and rewrote the entire project
   * it is much simpler, more readable, and more appropriate for unified2 files
   * the issue with excessive CPU usage (_70+% on all cores_) has disappeared
