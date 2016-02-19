@@ -16,3 +16,4 @@ build
 /tests/load/logs
 cls*
 var
+cls
