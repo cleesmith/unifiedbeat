@@ -32,18 +32,18 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 1. copy or scp the unifiedbeat binary file to the unifiedbeat folder
 1. ```curl -XPUT 'http://localhost:9200/_template/unifiedbeat' -d@etc/unifiedbeat.template.json```
 1. ```rm .unifiedbeat``` if exists ... this file tracks the previous positions within the unified2 files being tailed and indexed
-1. ```nano or vim etc/unifiedbeat.yml``` then change YAML configuration file:
-  * sensor:
-    * unified2_path: **?**  _... where are the unified2 files, typically: /var/log/snort/snort.log*_
-    * unified2_prefix: "snort.log"
-    * rules:
-      * gen_msg_map_path: **?**  _... the absolute full path, typically: /etc/snort/gen-msg.map_
-      * paths: **?**  _... where are the .rules files, typically: /etc/snort/rules/*.rules_
-    * fields: _... add fixed/known details about this sensor_
+1. ```vim etc/unifiedbeat.yml``` then change YAML configuration file:
+  * **sensor**:
+    * **unified2_path**: _?_  _... where are the unified2 files, typically: /var/log/snort/snort.log*_
+    * **unified2_prefix**: "snort.log"
+    * **rules**:
+      * **gen_msg_map_path**: _?_  _... the absolute full path, typically: /etc/snort/gen-msg.map_
+      * **paths**: _?_  _... where are the .rules files, typically: /etc/snort/rules/*.rules_
+    * **fields**: _... add fixed/known details about this sensor_
   * . &nbsp; . &nbsp; .
-  * output:
-    * elasticsearch:
-      * hosts: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
+  * **output**:
+    * **elasticsearch**:
+      * **hosts**: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
 1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typically done
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
   * typically this command would be in a systemd, Upstart, or SysV (init.d) script
