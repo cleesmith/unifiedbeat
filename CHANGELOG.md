@@ -30,6 +30,12 @@
       * which tracks the **offset** into the unified2 file that's currently being tailed
       * the bookmark file is only written to disk upon program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
+* concerns/todo's:
+  * how to install/upgrade Go
+    * without using gvm, but manually
+  * how to best handle dependencies:
+    * godep doesn't seem to work with gvm
+    * use glide ?
 
 ***
 
