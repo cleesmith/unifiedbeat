@@ -46,7 +46,7 @@
     * otherwise, snort triggers an alert for every request/response to/from ElasticSearch
     * otherwise, there is an endless loop of indexing and it can never catch up
     * or edit the rules to not trigger these alerts (_probably not a good idea_)
-      * see: https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions
+      * see: [Managing Alerts](https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions)
     * this is another good reason to keep elasticsearch on the same server with the sensor data
     * this may also be true if you are forwarding to Logstash (_this was not tested_)
 
