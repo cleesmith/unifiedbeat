@@ -49,7 +49,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
   * this command should be in a systemd, Upstart, or SysV (init.d) script
   * but for a quick test do:
     * ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
-    * ```ps aux | grep -i unifiedbeat``` ... remember it's pid, so you can kill it
+    * ```ps aux | grep -i unifiedbeat``` ... remember it's **pid**, so you can kill it later
     * use curl, sense, or kibana to look at the indices in elasticsearch
     * ```kill ?pid?``` ... when done testing
 1. now, use Kibana or a custom app daily to see what's up with your host and network, and sleep better at night
