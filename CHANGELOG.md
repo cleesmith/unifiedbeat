@@ -8,13 +8,14 @@
 
 * deleted all of the existing code
   * because it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
-* designed and rewrote the entire project -- much simpler, more readable, and more appropriate for unified2 files
-* followed [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
+* designed and rewrote the entire project
+  * it is much simpler, more readable, and more appropriate for unified2 files
+* followed the [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
 * upgraded to Go 1.5.3 (_of course, 1.6 was just released_)
 * dependencies:
   * [libbeat](https://github.com/elastic/beats/tree/master/libbeat)
   * [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
-  * [go-unified2](github.com/cleesmith/go-unified2)
+  * [go-unified2](https://github.com/cleesmith/go-unified2)
     * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
       * updates a **bookmark** file -- **.unifiedbeat**
