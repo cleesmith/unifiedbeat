@@ -35,7 +35,7 @@
   * how to install/upgrade Go
     * without using gvm, but manually
   * how to best handle dependencies:
-    * **vendor** all dependencies (_lockdown project to the known and working_)
+    * **vendor** all dependencies (_lockdown project to the **known and working**_)
     * godep doesn't seem to work with gvm
     * use glide ?
   * it's unfortunate that installs, upgrades, and dependencies are still a bother (_just like in ruby, python, or whatever_)
