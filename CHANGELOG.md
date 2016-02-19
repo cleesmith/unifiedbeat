@@ -10,6 +10,7 @@
   * because it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
 * designed and rewrote the entire project
   * it is much simpler, more readable, and more appropriate for unified2 files
+  * the issue with excessive CPU usage (_70+% on all cores_) has disappeared
 * followed the [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
 * upgraded to Go 1.5.3 (_of course, 1.6 was just released_)
 * dependencies:
