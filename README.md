@@ -44,7 +44,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
   * **output**:
     * **elasticsearch**:
       * **hosts**: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
-1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typically done
+1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typical
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
   * typically this command would be in a systemd, Upstart, or SysV (init.d) script
   * for a quick test use:
