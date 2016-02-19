@@ -35,7 +35,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 1. ```vim etc/unifiedbeat.yml``` then change:
   * **sensor**:
     * **unified2_path**: _?_  _... where are the unified2 files, typically: /var/log/snort/snort.log*_
-    * **unified2_prefix**: _?_  _"snort.log" or "snort.unified2"_
+    * **unified2_prefix**: _?_  _... for example: "snort.log" or "snort.unified2"_
     * **rules**:
       * **gen_msg_map_path**: _?_  _... the absolute full path, typically: /etc/snort/gen-msg.map_
       * **paths**: _?_  _... where are the .rules files, typically: /etc/snort/rules/*.rules_
