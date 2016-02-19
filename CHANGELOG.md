@@ -22,7 +22,7 @@
 * upgraded to Go 1.5.3 (_sheesh! 1.6 was just released_)
 * dependencies:
   * 1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat) -- _to beat, or not to beat ..._
-  * 2. [gopacket](https://github.com/google/gopacket) -- mostly for the ```packet_dump``` field
+  * 2. [gopacket](https://github.com/google/gopacket) -- for the ```packet_dump``` field with it's thorough packet details
   * 3. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
   * 4. [go-unified2](https://github.com/cleesmith/go-unified2)
     * my fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
