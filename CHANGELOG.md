@@ -38,6 +38,7 @@
     * **vendor** all dependencies (_lockdown project to the known and working_)
     * godep doesn't seem to work with gvm
     * use glide ?
+  * it's unfortunate that installs, upgrades, and dependencies are still a bother (_just like in ruby, python, or whatever_)
 
 ***
 
