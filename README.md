@@ -12,6 +12,8 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 > #### Note
 >
 > This version is no longer based on a clone of Filebeat, but follows the Beats development guide.
+>
+> See **CHANGELOG.md**
 
 ***
 
