@@ -15,4 +15,4 @@ unifiedbeat.test.exe
 build
 /tests/load/logs
 cls*
-var/log
+var
