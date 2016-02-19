@@ -31,6 +31,7 @@
       * which tracks the **offset** into the unified2 file that's currently being tailed
       * the bookmark file is only written to disk upon program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
+        * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 * concerns/todo's:
   * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
   * how to install/upgrade Go
