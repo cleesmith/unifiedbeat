@@ -33,7 +33,8 @@
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 * concerns/todo's:
-  * don't ```wget https://github.com/cleesmith/unifiedbeat/blob/master/var/GeoIP/GeoLite2-City.mmdb``` -- use MaxMind
+  * don't ```wget https://github.com/cleesmith/unifiedbeat/blob/master/var/GeoIP/GeoLite2-City.mmdb```
+    * instead download **GeoLite2 City** database from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geolite2/)
   * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
   * how to install/upgrade Go
     * without using gvm, but manually
