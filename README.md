@@ -32,7 +32,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 1. copy or scp the unifiedbeat binary file to the unifiedbeat folder
 1. ```curl -XPUT 'http://localhost:9200/_template/unifiedbeat' -d@etc/unifiedbeat.template.json```
 1. ```rm .unifiedbeat``` if exists ... this file tracks the previous positions within the unified2 files being tailed and indexed
-1. ```vim etc/unifiedbeat.yml``` then change YAML configuration file:
+1. ```vim etc/unifiedbeat.yml``` then change:
   * **sensor**:
     * **unified2_path**: _?_  _... where are the unified2 files, typically: /var/log/snort/snort.log*_
     * **unified2_prefix**: "snort.log"
