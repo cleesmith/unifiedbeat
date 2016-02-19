@@ -43,7 +43,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
   * . &nbsp; . &nbsp; .
   * output:
     * elasticsearch:
-      * hosts: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port - most securely/typically on the same host as Snort_
+      * hosts: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
 1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typically done
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
   * typically this command would be in a systemd, Upstart, or SysV (init.d) script
@@ -52,7 +52,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * ```ps aux | grep -i unifiedbeat``` ... remember it's pid, so you can kill it
     * use curl, sense, or kibana to look at the indices in elasticsearch
     * ```kill ?pid?``` ... when done testing
-1. now, use Kibana or a custom app daily to see what's up with your host and network ... sleep better at night
+1. now, use Kibana or a custom app daily to see what's up with your host and network, and sleep better at night
 
 ***
 
