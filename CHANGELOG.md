@@ -29,7 +29,7 @@
     * with changes for the registrar feature
       * updates a **bookmark** file -- **.unifiedbeat**
       * which tracks the **offset** into the unified2 file that's currently being tailed
-      * the bookmark file is only written to disk upon program termination
+      * the bookmark file is only written to disk upon _graceful_ program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 * concerns/todo's:
