@@ -41,6 +41,11 @@
     * godep doesn't seem to work with gvm
     * use glide ?
   * it's unfortunate that installs, upgrades, and dependencies are still a pain (_just like in ruby, python, or whatever_)
+  * don't run unifiedbeat on Security Onion unless you stop Snort first
+    * to stop Snort do ```sudo nsm_sensor_ps-stop```
+    * otherwise, snort triggers an alert for every request/response to/from ElasticSearch
+    * so we end up with an endless loop of indexing and can never catch up
+    * or edit the rules to not trigger these alerts
 
 ***
 
