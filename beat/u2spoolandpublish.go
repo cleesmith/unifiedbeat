@@ -131,6 +131,9 @@ func (ub *Unifiedbeat) U2SpoolAndPublish() {
 			// update registrar:
 			ub.registrar.State.Source = filename
 			ub.registrar.State.Offset = offset
+			// should it WriteRegistry here ?
+			// that means lots of disk writes
+			// is the registry file info that important ?
 
 			tot++
 			sourceFullPath := path.Join(ub.UbConfig.Sensor.Spooler.Folder, filename)

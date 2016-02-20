@@ -49,9 +49,11 @@ type Registrar struct {
 	sync.Mutex             // lock and unlock during writes
 }
 
+// remove the ",omitempty"s so something is written to
+// the registry file instead of just "{}"
 type FileState struct {
-	Offset int64  `json:"offset,omitempty"`
-	Source string `json:"source,omitempty"`
+	Offset int64  `json:"offset"`
+	Source string `json:"source"`
 }
 
 func NewRegistrar(registryFile string) (*Registrar, error) {

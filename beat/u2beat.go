@@ -153,12 +153,41 @@ func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 
 func (ub *Unifiedbeat) Run(b *beat.Beat) error {
 	logp.Info("Run: start spooling and publishing...")
+
+	// thoughts:
+	//
+	// 1. the "quit" channel is complicating things,
+	//    and it seems wrongheaded to use a channel
+	//    when there are no go routines, well actually
+	//    libbeat start this beat as a go routine
+	//    - so look at how other beats handle
+	//      global-like vars (IsRunning)
+	//
+	// 2. what about using a IsRunning bool in the
+	//    Unifiedbeat struct "ub.IsRunning", which
+	//    ub.U2SpoolAndPublish() can access/change
+	//    - only one U2SpoolAndPublish is ever running,
+	//      so there's no race/mutex issues
+
 	// use a channel to gracefully shutdown "U2SpoolAndPublish":
 	quit = make(chan bool)
+
 	spoolingAndPublishingIsRunning = true
 	ub.U2SpoolAndPublish()
-	// just in case "U2SpoolAndPublish" returns unexpectedly:
+	// indicate that "U2SpoolAndPublish" returned unexpectedly,
+	// and that it is no longer running, so the "quit" code is ignored:
 	spoolingAndPublishingIsRunning = false
+
+	// do a WriteRegistry as the "quit" channel code may fail,
+	// block, or whatever ... the worst is two writes of the
+	// same info to the registry file:
+	err := ub.registrar.WriteRegistry()
+	if err != nil {
+		logp.Info("Run: failed to update registry file; error: %v", err)
+		return err // return to "main.go" after Stop() and Cleanup()
+	}
+	logp.Info("Run: updated registry file.")
+
 	// returning always calls Stop and Cleanup, and in that order
 	return nil // return to "main.go" after Stop() and Cleanup()
 }

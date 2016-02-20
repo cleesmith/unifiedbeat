@@ -35,5 +35,7 @@ var Name = "Unifiedbeat"
 var Version = "2.0.0"
 
 func main() {
-	beat.Run(Name, Version, unifiedbeat.New())
+	if err := beat.Run(Name, Version, unifiedbeat.New()); err != nil {
+		os.Exit(1)
+	}
 }
