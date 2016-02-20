@@ -4,7 +4,7 @@ Unifiedbeat reads records from [Unified2](http://manual.snort.org/node44.html) b
 Unified2 files are created by [IDS/IPS software](https://en.wikipedia.org/wiki/Intrusion_prevention_system)
 such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/).
 
-Compatible with [U2Search](https://github.com/cleesmith/u2search) for simple searching.
+Perform simple searching with [U2Search](https://github.com/cleesmith/u2search).
 
 > #### More
 >
