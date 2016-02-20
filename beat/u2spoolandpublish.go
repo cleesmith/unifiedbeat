@@ -49,7 +49,7 @@ import (
 // which avoids continuously looping over the same data
 // leading to document duplication.
 func (ub *Unifiedbeat) U2SpoolAndPublish() {
-	logp.Info("Spooling and publishing...")
+	logp.Info("U2SpoolAndPublish: spooling and publishing...")
 	reader := unified2.NewSpoolRecordReader(ub.UbConfig.Sensor.Spooler.Folder,
 		ub.UbConfig.Sensor.Spooler.FilePrefix)
 	// only for debugging:
@@ -76,87 +76,68 @@ func (ub *Unifiedbeat) U2SpoolAndPublish() {
 
 	var tot int
 	// forever index all files in the specifed spool folder:
-	for {
-		select {
-		case <-quit:
-			// *******************************************************
-			// ??? is this where we ensure the registrar is up-to-date
-			// concerns:
-			// - our first run, so we've never tailed any file before
-			// - there are no files to read
-			// - we quit before reading any records
-			// *******************************************************
-			logp.Info("U2SpoolAndPublish: told to quit; graceful return.")
-			close(quit)
-			return
-		default:
-			// fmt.Println("\tU2SpoolAndPublish: Next record")
-			record, err := reader.Next()
-			if err != nil {
-				if err == io.EOF {
-					// EOF is returned when the end of the last (most recent file)
-					// spool file is reached and there is nothing else to read.
-					// Note that "reader.Next()" only returns "io.EOF" when there
-					// are no other files to open ... in other words, it is
-					// always tailing the last file opened.
-					// fmt.Println("\tU2SpoolAndPublish: EOF")
-					time.Sleep(time.Second * 1)
-				} else {
-					// *******************************************************
-					// FIXME we can't just return coz:
-					// - we have an open channel
-					// - this basically stops unifiedbeat
-					// *******************************************************
-					logp.Info("U2SpoolAndPublish: unexpected error: '%v'", err)
-					return
-				}
+	for ub.isSpooling {
+		// select {
+		// case <-quit:
+		// 	logp.Info("U2SpoolAndPublish: told to quit; graceful return.")
+		// 	close(quit)
+		// 	return
+		// default:
+		record, err := reader.Next()
+		if err != nil {
+			if err == io.EOF {
+				// EOF is returned when the end of the last (most recent file)
+				// spool file is reached and there is nothing else to read.
+				// Note that "reader.Next()" only returns "io.EOF" when there
+				// are no other files to open ... in other words, it is
+				// always tailing the last file opened.
+				time.Sleep(time.Millisecond * 500)
+			} else {
+				logp.Critical("U2SpoolAndPublish: unexpected error: '%v'", err)
+				return
 			}
+		}
 
-			if record == nil {
-				// The "record" and "err" are nil when there are no files
-				// at all to be read.  This will happen if the "reader.Next()"
-				// is called before any files exist in the folder being spooled.
-				// so kill some time:
-				// fmt.Println("\tU2SpoolAndPublish: tailing")
-				time.Sleep(time.Second * 1)
-				// now, go see if a new record has appeared
-				continue
-			}
+		if record == nil {
+			// The vars "record" and "err" are nil when there are no files
+			// at all to be read.  This will happen if the "reader.Next()"
+			// is called before any files exist in the folder being spooled.
+			time.Sleep(time.Millisecond * 500)
+			// now, go see if a new record has appeared
+			continue
+		}
 
-			// at this point, we have read a unified2 record, which
-			// needs to be converted into JSON and indexed into ES
-			// fmt.Println("\tU2SpoolAndPublish: indexing record")
-			filename, offset := reader.Offset()
+		// at this point, we have read a unified2 record, which
+		// needs to be converted into JSON and indexed into ES
+		filename, offset := reader.Offset()
 
-			// update registrar:
-			ub.registrar.State.Source = filename
-			ub.registrar.State.Offset = offset
-			// should it WriteRegistry here ?
-			// that means lots of disk writes
-			// is the registry file info that important ?
+		// update registrar:
+		ub.registrar.State.Source = filename
+		ub.registrar.State.Offset = offset
+		// should it WriteRegistry here ?
+		// that means lots of disk writes, but is
+		// the registry file info that important ?
 
-			tot++
-			sourceFullPath := path.Join(ub.UbConfig.Sensor.Spooler.Folder, filename)
-			event := &FileEvent{
-				ReadTime:     time.Now(),
-				Source:       sourceFullPath,
-				InputType:    "unified2",
-				DocumentType: "unified2", // changes for each unified2 record type
-				Offset:       offset,
-				U2Record:     record,
-				Fields:       &ub.UbConfig.Sensor.Fields,
-			}
-			event.SetFieldsUnderRoot(ub.UbConfig.Sensor.FieldsUnderRoot)
+		tot++
+		sourceFullPath := path.Join(ub.UbConfig.Sensor.Spooler.Folder, filename)
+		event := &FileEvent{
+			ReadTime:     time.Now(),
+			Source:       sourceFullPath,
+			InputType:    "unified2",
+			DocumentType: "unified2", // this changes for each unified2 record type
+			Offset:       offset,
+			U2Record:     record,
+			Fields:       &ub.UbConfig.Sensor.Fields,
+		}
+		event.SetFieldsUnderRoot(ub.UbConfig.Sensor.FieldsUnderRoot)
 
-			eventCommonMapStr := event.ToMapStr() // see "beat/u2recordhandler.go"
+		eventCommonMapStr := event.ToMapStr() // see "beat/u2recordhandler.go"
 
-			// FIXME handle returns from PublishEvent: []common.MapStr, error
-			// arrayOfCommonMapStrs, err = ub.events.PublishEvent(eventCommonMapStr)
-			// at least log the err and len(arrayOfCommonMapStrs)--the number of failures
-			ub.events.PublishEvent(eventCommonMapStr)
+		ub.events.PublishEvent(eventCommonMapStr)
 
-		} // end: select default
+		// } // end: select default
 
 	} // end: forever index all files in the specifed spool folder
 
+	logp.Info("U2SpoolAndPublish: done.")
 }

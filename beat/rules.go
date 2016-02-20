@@ -28,7 +28,6 @@ package unifiedbeat
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"path"
 	"path/filepath"
@@ -52,7 +51,6 @@ var SourceFiles []string
 var Rules = make(map[string]Rule)
 
 func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
-	// this func should only be called once during unifiedbeat initialization
 	multipleLineWarnings := 0
 	duplicateRuleWarnings := 0
 
@@ -69,25 +67,21 @@ func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
 
 	matchRuleActions, err := regexp.Compile(ruleActionsRegexp)
 	if err != nil {
-		fmt.Println(err)
 		return 0, 0, err
 	}
 
 	matchRuleSid, err := regexp.Compile(ruleSidRegexp)
 	if err != nil {
-		fmt.Println(err)
 		return 0, 0, err
 	}
 
 	matchRuleGid, err := regexp.Compile(ruleGidRegexp)
 	if err != nil {
-		fmt.Println(err)
 		return 0, 0, err
 	}
 
 	matchRuleMsg, err := regexp.Compile(ruleMsgRegexp)
 	if err != nil {
-		fmt.Println(err)
 		return 0, 0, err
 	}
 
@@ -111,12 +105,10 @@ func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
 			if fileinfo.IsDir() {
 				dir, err := os.Open(amatch) // open folder to get list of rules files
 				if err != nil {
-					fmt.Println(err)
 					return 0, 0, err
 				}
 				fileNames, err := dir.Readdirnames(-1)
 				if err != nil {
-					fmt.Println(err)
 					return 0, 0, err
 				}
 				dir.Close()
@@ -134,7 +126,6 @@ func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
 	for _, filename := range ruleFileNames {
 		aFile, err := os.Open(filename)
 		if err != nil {
-			fmt.Println(err)
 			return 0, 0, err
 		}
 		// avoid duplicating path and filename's for each rule (less memory)
@@ -158,7 +149,7 @@ func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
 				lastChar := string(aline[eol])
 				if lastChar == backslash {
 					// maybe, some day, deal with multi-line rules, maybe
-					fmt.Printf("WARNING ignoring \"multiple line\" Rule on line# %v from file:\n\t%v\n", lineNum, aFile.Name())
+					logp.Info("WARNING ignoring \"multiple line\" Rule on line# %v from file:\n\t%v\n", lineNum, aFile.Name())
 					multipleLineWarnings++
 					continue
 				}
@@ -184,10 +175,10 @@ func LoadRules(genMsgMapPath string, rulePaths []string) (int, int, error) {
 				inUseRule, isDuplicateRule := Rules[gid_sid]
 				if isDuplicateRule {
 					// first rule found wins, who knows how Snort handles this issue
-					fmt.Printf("\nWARNING ignoring \"duplicate\" Rule on line# %v from file:\n\t%v\n", lineNum, aFile.Name())
-					fmt.Printf("\tduplicate of Rule on line# %v from file:\n", inUseRule.SourceFileLineNum)
-					fmt.Printf("\t%v\n", SourceFiles[inUseRule.SourceFileIndex])
-					fmt.Printf("\tgid_sid=%v\n", gid_sid)
+					logp.Info("\nWARNING ignoring \"duplicate\" Rule on line# %v from file:\n\t%v\n", lineNum, aFile.Name())
+					logp.Info("\tduplicate of Rule on line# %v from file:\n", inUseRule.SourceFileLineNum)
+					logp.Info("\t%v\n", SourceFiles[inUseRule.SourceFileIndex])
+					logp.Info("\tgid_sid=%v\n", gid_sid)
 					// debug duplicate rules:
 					// shellcode.rules often has duplicate rules based on gid+sid but with different protocols (tcp vs udp)
 					duplicateRuleWarnings++
@@ -206,7 +197,6 @@ func loadGenMsgMap(genMsgMapPath string) (int, error) {
 	var duplicateRuleWarnings int
 	f, err := os.Open(genMsgMapPath)
 	if err != nil {
-		fmt.Println(err)
 		return 0, err
 	}
 	defer f.Close()
@@ -227,9 +217,9 @@ func loadGenMsgMap(genMsgMapPath string) (int, error) {
 			inUseRule, isDuplicateRule := Rules[gid_sid]
 			if isDuplicateRule {
 				// first rule found wins, who knows how Snort handles this issue
-				fmt.Printf("WARNING ignoring \"duplicate\" Rule on line# %v from file:\n\t%v\n", lineNum, genMsgMapPath)
-				fmt.Printf("\tduplicate of Rule on line# %v from file:\n", inUseRule.SourceFileLineNum)
-				fmt.Printf("\t%v\n", SourceFiles[inUseRule.SourceFileIndex])
+				logp.Info("WARNING ignoring \"duplicate\" Rule on line# %v from file:\n\t%v\n", lineNum, genMsgMapPath)
+				logp.Info("\tduplicate of Rule on line# %v from file:\n", inUseRule.SourceFileLineNum)
+				logp.Info("\t%v\n", SourceFiles[inUseRule.SourceFileIndex])
 				duplicateRuleWarnings++
 				continue
 			} else {

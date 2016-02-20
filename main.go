@@ -27,6 +27,8 @@
 package main
 
 import (
+	"os"
+
 	unifiedbeat "github.com/cleesmith/unifiedbeat/beat"
 	"github.com/elastic/beats/libbeat/beat"
 )

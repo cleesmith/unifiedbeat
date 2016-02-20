@@ -29,6 +29,7 @@ package unifiedbeat
 type UnifiedbeatConfig struct {
 	Unified2Path    string `yaml:"unified2_path"`
 	Unified2Prefix  string `yaml:"unified2_prefix"`
+	SpoolerTimeout  int    `yaml:"spooler_timeout"`
 	Spooler         SpoolerConfig
 	Rules           RulesConfig
 	Geoip2Path      string `yaml:"geoip2_path"`

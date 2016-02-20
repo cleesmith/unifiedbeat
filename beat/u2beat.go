@@ -32,6 +32,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/elastic/beats/libbeat/beat"
 	"github.com/elastic/beats/libbeat/cfgfile"
@@ -42,18 +43,14 @@ import (
 // The "quit" channel is used to tell
 // U2SpoolAndPublish to stop gracefully. This
 // ensures the registry file is up-to-date.
-var quit chan bool
+// var quit chan bool
 
-// Indicates if U2SpoolAndPublish is running,
-// which is needed to avoid blocking/panics
-// concerning the "quit" channel.
-var spoolingAndPublishingIsRunning bool
-
-// Contains all objects needed to run the beat
 type Unifiedbeat struct {
-	UbConfig  ConfigSettings
-	registrar *Registrar
-	events    publisher.Client
+	UbConfig     ConfigSettings
+	registrar    *Registrar
+	isSpooling   bool
+	spoolTimeout time.Duration
+	events       publisher.Client
 }
 
 func New() *Unifiedbeat {
@@ -61,7 +58,7 @@ func New() *Unifiedbeat {
 }
 
 func (ub *Unifiedbeat) Config(b *beat.Beat) error {
-	// just load the unifiedbeat.yml config file
+	// load the unifiedbeat.yml config file
 	err := cfgfile.Read(&ub.UbConfig, "")
 	if err != nil {
 		return fmt.Errorf("Error reading config file: %v", err)
@@ -71,11 +68,9 @@ func (ub *Unifiedbeat) Config(b *beat.Beat) error {
 
 func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 	// Go overboard checking stuff . . .
-	// Also, instead of forcing the user to always find/look in the log file,
-	// just log and print out critical errors and immediately exit.
 
 	// It is possible for the Unified2Path to contain no files, as
-	// there may have been no sensor alerts/events--as yet, so we
+	// there may have been no sensor alerts/events yet, so we
 	// can not verify Unified2Prefix only that Unified2Path is valid.
 
 	u2PathPrefixSettings := path.Join(ub.UbConfig.Sensor.Unified2Path, ub.UbConfig.Sensor.Unified2Prefix)
@@ -84,7 +79,7 @@ func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 	// make path absolute (as it may be relative in unifiedbeat.yml):
 	absPath, err := filepath.Abs(u2PathPrefixSettings)
 	if err != nil {
-		// this is not really an error, but it should NOT happen, so log a note:
+		// this is not really an error, but it should NOT happen:
 		logp.Info("Setup: failed to set the absolute path for unified2 files: '%s'", u2PathPrefixSettings)
 		absPath = u2PathPrefixSettings // whatever, just use it as-is
 	}
@@ -93,20 +88,16 @@ func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 	_, err = os.Stat(ub.UbConfig.Sensor.Spooler.Folder)
 	if err != nil {
 		// unable to find the unified2 files folder:
-		fmt.Printf("Setup: call to 'os.Stat' failed with error: '%v'\n", err)
-		fmt.Println("Setup: 'ERROR: unified2_path' is an invalid path; correct the YAML config file!")
 		logp.Critical("Setup: ERROR: 'unified2_path' is an invalid path; correct the YAML config file!")
 		os.Exit(1)
 	}
 	ub.UbConfig.Sensor.Spooler.FilePrefix = path.Base(absPath)
 
 	if len(ub.UbConfig.Sensor.Rules.GenMsgMapPath) == 0 {
-		fmt.Println("Setup: ERROR: required path to 'gen_msg_map_path' not specified in YAML config file!")
 		logp.Critical("Setup: ERROR: required path to 'gen_msg_map_path' not specified in YAML config file!")
 		os.Exit(1)
 	}
 	if len(ub.UbConfig.Sensor.Rules.Paths) == 0 {
-		fmt.Println("Setup: ERROR: required path(s) to Rule files not specified in YAML config file!")
 		logp.Critical("Setup: ERROR: required path(s) to Rule files not specified in YAML config file!")
 		os.Exit(1)
 	}
@@ -117,7 +108,6 @@ func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 		// prefer to use GeoIP2 databases for geocoding both IPv4/6 addresses:
 		err := OpenGeoIp2DB(ub.UbConfig.Sensor.Geoip2Path)
 		if err != nil {
-			fmt.Printf("Setup: failed opening 'GeoIp2' database; error: %v\n", err)
 			logp.Critical("Setup: failed opening 'GeoIp2' database; error: %v", err)
 			os.Exit(1)
 		}
@@ -127,19 +117,22 @@ func (ub *Unifiedbeat) Setup(b *beat.Beat) error {
 	// load Rules and SourceFiles:
 	multipleLineWarnings, duplicateRuleWarnings, err := LoadRules(ub.UbConfig.Sensor.Rules.GenMsgMapPath, ub.UbConfig.Sensor.Rules.Paths)
 	if err != nil {
-		fmt.Printf("Setup: loading Rules error: %v\n", err)
 		logp.Critical("Setup: loading Rules error: %v", err)
 		os.Exit(1)
 	}
 	logp.Info("Setup: Rules warnings: %v multiple line rules rejected, %v duplicate rules rejected", multipleLineWarnings, duplicateRuleWarnings)
 	logp.Info("Setup: Rules stats: %v rule files read, %v rules created", len(SourceFiles), len(Rules))
 
+	ub.spoolTimeout = time.Duration(5) * time.Second // default is 5 seconds
+	if ub.UbConfig.Sensor.SpoolerTimeout > 0 {
+		ub.spoolTimeout = time.Duration(ub.UbConfig.Sensor.SpoolerTimeout) * time.Second
+	}
+
 	ub.events = b.Events
 
 	// registry file is created in the current working directory:
 	ub.registrar, err = NewRegistrar(".unifiedbeat")
 	if err != nil {
-		fmt.Printf("Setup: unable to set registry file error: %v\n", err)
 		logp.Critical("Setup: unable to set registry file error: %v", err)
 		os.Exit(1)
 	}
@@ -170,13 +163,13 @@ func (ub *Unifiedbeat) Run(b *beat.Beat) error {
 	//      so there's no race/mutex issues
 
 	// use a channel to gracefully shutdown "U2SpoolAndPublish":
-	quit = make(chan bool)
+	// quit = make(chan bool)
 
-	spoolingAndPublishingIsRunning = true
+	ub.isSpooling = true
 	ub.U2SpoolAndPublish()
 	// indicate that "U2SpoolAndPublish" returned unexpectedly,
 	// and that it is no longer running, so the "quit" code is ignored:
-	spoolingAndPublishingIsRunning = false
+	ub.isSpooling = false
 
 	// do a WriteRegistry as the "quit" channel code may fail,
 	// block, or whatever ... the worst is two writes of the
@@ -192,32 +185,41 @@ func (ub *Unifiedbeat) Run(b *beat.Beat) error {
 	return nil // return to "main.go" after Stop() and Cleanup()
 }
 
-// Stop is called on exit before Cleanup (unclear flow naming?)
+// Stop is called on exit before Cleanup
+// why isn't the flow Cleanup and then Stop?
 func (ub *Unifiedbeat) Stop() {
-	logp.Info("Stop: is spooling and publishing running? '%v'", spoolingAndPublishingIsRunning)
-	if spoolingAndPublishingIsRunning {
-		logp.Info("Stop: waiting for spooling and publishing to shutdown.")
+	startStopping := time.Now()
+	logp.Info("Stop: is spooling and publishing running? '%v'", ub.isSpooling)
+	if ub.isSpooling {
+		ub.isSpooling = false
+		logp.Info("Stop: waiting %v for spool/publish to shutdown.", ub.spoolTimeout)
 
-		// tell "U2SpoolAndPublish" to shutdown:
-		quit <- true
+		// lame, but might work
+		time.Sleep(ub.spoolTimeout)
 
-		// block/wait for "U2SpoolAndPublish" to close the quit channel:
-		<-quit
+		// // tell "U2SpoolAndPublish" to shutdown:
+		// quit <- true
+		// // block/wait for "U2SpoolAndPublish" to close the quit channel:
+		// <-quit
 
 		err := ub.registrar.WriteRegistry()
 		if err != nil {
 			logp.Info("Stop: failed to update registry file; error: %v", err)
+		} else {
+			logp.Info("Stop: successfully updated registry file.")
 		}
-		logp.Info("Stop: updated registry file.")
 	}
+	elapsed := time.Since(startStopping)
+	logp.Info("Stop: done after waiting %v.", elapsed)
 }
 
 func (ub *Unifiedbeat) Cleanup(b *beat.Beat) error {
-	logp.Info("Cleanup: is spooling and publishing running? '%v'", spoolingAndPublishingIsRunning)
+	logp.Info("Cleanup: is spooling and publishing running? '%v'", ub.isSpooling)
 	// see "beat/geoip2.go":
 	if GeoIp2Reader != nil {
 		GeoIp2Reader.Close()
 		logp.Info("Cleanup: closed GeoIp2Reader.")
 	}
+	logp.Info("Cleanup: done.")
 	return nil
 }

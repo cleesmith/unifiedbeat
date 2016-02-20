@@ -283,9 +283,6 @@ func gatherPacketLayersInfo(event common.MapStr, packet gopacket.Packet) {
 	//   The first three provide methods for getting src/dst addresses for that particular layer,
 	//   while the final layer provides a Payload function to get payload data.
 
-	// fmt.Printf("packet.Data=%v=%T=%s\n", len(packet.Data()), packet.Data(), packet.Data())
-	// fmt.Printf("packet.Dump=%T...:\n%s\n...\n", packet.Dump(), packet.Dump())
-
 	// use "packet.Dump()" as a fail-safe to capture all available layers for a packet,
 	// just in case we encounter something unexpected in the unified2 file or we
 	// have neglected to handle a particular layer explicitly

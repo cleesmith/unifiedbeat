@@ -28,16 +28,12 @@ package unifiedbeat
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
 
-	// cfg "github.com/elastic/beats/filebeat/config"
-	// "github.com/elastic/beats/filebeat/input"
-	// . "github.com/elastic/beats/filebeat/input"
-	// "github.com/elastic/beats/libbeat/logp"
+	"github.com/elastic/beats/libbeat/logp"
 )
 
 // Registrar should only have one entry, which
@@ -49,8 +45,8 @@ type Registrar struct {
 	sync.Mutex             // lock and unlock during writes
 }
 
-// remove the ",omitempty"s so something is written to
-// the registry file instead of just "{}"
+// remove the ",omitempty"s so something is written
+// to the registry file instead of just "{}"
 type FileState struct {
 	Offset int64  `json:"offset"`
 	Source string `json:"source"`
@@ -61,37 +57,35 @@ func NewRegistrar(registryFile string) (*Registrar, error) {
 		registryFile: registryFile,
 	}
 
-	// Ensure we have access to write registryFile, of course,
-	// this could still fail in later calls to LoadState or WriteRegistry.
-	// There is no perfect solution as files and permissions are just a mess,
-	// but the issue should be resolved during deployment.
+	// Ensure we have access to write the registry file
+	// by creating, closing, and removing a test file.
+	// Of course, access could still fail in later
+	// calls to  LoadState or WriteRegistry.
+	// There is no perfect solution as files and
+	// permissions are just a mess, but we tried.
 	testfile := r.registryFile + ".access.test"
 	file, err := os.Create(testfile)
-	// err = errors.New("Create failed!")
 	if err != nil {
-		fmt.Printf("NewRegistrar: test 'create file' access was denied to path for registry file: '%v'\n", r.registryFile)
+		logp.Info("NewRegistrar: test 'create file' access was denied to path for registry file: '%v'\n", r.registryFile)
 		return nil, err
 	}
 	err = file.Close()
-	// err = errors.New("Close failed!")
 	if err != nil {
 		// really? we lost access after Create, really?
-		fmt.Printf("NewRegistrar: test 'close file' access was denied to path for registry file: '%v'\n", r.registryFile)
+		logp.Info("NewRegistrar: test 'close file' access was denied to path for registry file: '%v'\n", r.registryFile)
 		return nil, err
 	}
 	err = os.Remove(testfile)
-	// err = errors.New("Remove failed!")
 	if err != nil {
 		// really? we lost access after Create and Close, really?
-		fmt.Printf("NewRegistrar: test 'remove file' access was denied to path for registry file: '%v'\n", r.registryFile)
+		logp.Info("NewRegistrar: test 'remove file' access was denied to path for registry file: '%v'\n", r.registryFile)
 		return nil, err
 	}
 
-	// Set absolute path to the registryFile
+	// set an absolute path to the registryFile:
 	absPath, err := filepath.Abs(r.registryFile)
-	// err = errors.New("filepath.Abs failed!")
 	if err != nil {
-		fmt.Printf("NewRegistrar: failed to set the absolute path for registry file: '%s'\n", r.registryFile)
+		logp.Info("NewRegistrar: failed to set the absolute path for registry file: '%s'\n", r.registryFile)
 		return nil, err
 	}
 	r.registryFile = absPath
@@ -99,48 +93,41 @@ func NewRegistrar(registryFile string) (*Registrar, error) {
 	return r, err
 }
 
-// LoadState fetches the previous reading state from the RegistryFile
 func (r *Registrar) LoadState() {
 	if existing, e := os.Open(r.registryFile); e == nil {
 		defer existing.Close()
-		// fmt.Printf("Loading registrar data from %s\n", r.registryFile)
 		decoder := json.NewDecoder(existing)
 		decoder.Decode(&r.State)
 	}
 }
 
 func (r *Registrar) WriteRegistry() error {
-	// logp.Debug("registrar", "Write registry file: %s", r.registryFile)
-	// fmt.Printf("WriteRegistry file: %s\n", r.registryFile)
-
 	r.Lock()
 	defer r.Unlock()
 	// can't truncate a file that does not exist:
 	_, err := os.Stat(r.registryFile)
 	if os.IsExist(err) {
-		err := os.Truncate(r.registryFile, 0) // the file must not be open on Windows!
+		err := os.Truncate(r.registryFile, 0)
 		if err != nil {
-			fmt.Printf("WriteRegistry: os.Truncate: err=%v\n", err)
+			logp.Info("WriteRegistry: os.Truncate: err=%v\n", err)
 			return err
 		}
 	}
-	// if json.Marshal or ioutil.WriteFile fail then most likely
+	// if "json.Marshal" or "ioutil.WriteFile" fail then most likely
 	// unifiedbeat does not have access to the registry file
 	jsonState, err := json.Marshal(r.State)
 	if err != nil {
-		fmt.Printf("WriteRegistry: json.Marshal: err=%v\n", err)
+		logp.Info("WriteRegistry: json.Marshal: err=%v\n", err)
 		return err
 	}
 	// https://golang.org/pkg/io/ioutil/#WriteFile
-	//   If the file does not exist, WriteFile creates it with permissions perm;
-	//   otherwise WriteFile truncates it before writing.
+	// If the file does not exist, WriteFile creates it with
+	// permissions 0644; otherwise it is truncated.
 	err = ioutil.WriteFile(r.registryFile, jsonState, 0644)
 	if err != nil {
-		fmt.Printf("WriteRegistry: ioutil.WriteFile: err=%v\n", err)
+		logp.Info("WriteRegistry: ioutil.WriteFile: err=%v\n", err)
 		return err
 	}
-
-	// fmt.Printf("Registry file updated: file: %v offset: %v.\n", r.State.Source, r.State.Offset)
 
 	return nil
 }

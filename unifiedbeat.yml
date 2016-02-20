@@ -35,6 +35,10 @@ sensor:
   # fields added by unifiedbeat itself, the custom fields overwrite the default fields.
   fields_under_root: true
 
+  # Configure spool timeout to wait for spool/publish to gracefully terminate.
+  # The default is 5 seconds, increase if spool/publish takes longer to finish.
+  #spooler_timeout: 5
+
 ############################# Output ##########################################
 
 # Configure what outputs to use when sending the data collected by the beat.
