@@ -56,17 +56,17 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 
 > ##### WARNING
 
-> * do not run unifiedbeat on Security Onion
-    * unless ElasticSearch is running on the same server, as in ```127.0.0.1:9200```
-    * unless you stop Snort first, to stop do ```sudo nsm_sensor_ps-stop```
-    * otherwise, snort triggers an alert for every request/response to/from a remote ElasticSearch
-    * otherwise, there is an endless loop of indexing and it can never catch up
-    * after all, a sensor is watching inbound/outbound network traffic
-    * or edit the rules to not trigger these alerts (_probably not a good idea_)
+> * do not run unifiedbeat on Security Onion (SO)
+    * otherwise, snort triggers an alert for every request/response to/from a remote ElasticSearch server
+    * the result is an _endless loop of indexing_ which never ends
+    * after all, sensors are suppose to watch inbound/outbound network traffic
+    * a fix may be to install and run ES on the same server as the sensor
+      * test this by installing ES on SO at ```127.0.0.1:9200```
+    * or stop Snort while running unifiedbeat
+      * to stop snort on SO do ```sudo nsm_sensor_ps-stop```
+    * a fix may be to edit the rules to not trigger these alerts (_probably not a good idea_)
       * see: [Managing Alerts](https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions)
-    * yet another reason to run ElasticSearch on the same server with the sensor data
-      * install ES on SO at ```127.0.0.1:9200``` then test
-    * this is probably true when forwarding to Logstash (_this was not tested_)
+    * also, this is probably true when forwarding to Logstash (_but was not tested_)
 
 ***
 
