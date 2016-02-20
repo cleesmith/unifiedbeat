@@ -54,7 +54,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * ```kill ?pid?``` ... when done testing
 1. now, use Kibana to see what's up with your host and network, then sleep better at night
 
-#### WARNING
+##### WARNING
 
 > * do not run unifiedbeat on Security Onion
     * unless ElasticSearch is running on the same server, as in ```127.0.0.1:9200```
@@ -64,9 +64,9 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * after all, a sensor is watching inbound/outbound network traffic
     * or edit the rules to not trigger these alerts (_probably not a good idea_)
       * see: [Managing Alerts](https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions)
-    * this is another good reason to keep elasticsearch on the same server with the sensor data
-    * this may also be true if you are forwarding to Logstash (_this was not tested_)
-    * this may be true for other sensor setups
+    * yet another reason to run ElasticSearch on the same server with the sensor data
+      * install ES on SO at ```127.0.0.1:9200``` then test
+    * this is probably true when forwarding to Logstash (_this was not tested_)
 
 ***
 

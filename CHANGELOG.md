@@ -6,8 +6,8 @@
 
 #### Changes
 
-* deleted all of the existing code
-  * because it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
+##### deleted all of the existing code
+  * it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
   * originally, cloning filebeat was a good choice
     * given a server might be used to monitor data from multiple sensors
     * however, it is **much simpler to just execute a unifiedbeat process** for each sensor
