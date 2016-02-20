@@ -67,7 +67,7 @@ func (ub *Unifiedbeat) U2SpoolAndPublish() {
 			logp.Info("unable to rename file '%v' to '%v' err: %v", filepath, filepathRename, err)
 			return
 		}
-		logp.Info("Indexed file '%v' and renamed to '%v'", filepath, filepathRename)
+		logp.Info("Indexed file: '%v' renamed: '%v'", filepath, filepathRename)
 	}
 
 	// use current registrar state:

@@ -33,7 +33,7 @@ import (
 	"github.com/elastic/beats/libbeat/beat"
 )
 
-var Name = "Unifiedbeat"
+var Name = "unifiedbeat"
 var Version = "2.0.0"
 
 func main() {
