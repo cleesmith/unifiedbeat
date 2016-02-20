@@ -54,7 +54,7 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
     * ```kill ?pid?``` ... when done testing
 1. now, use Kibana to see what's up with your host and network, then sleep better at night
 
-##### WARNING
+> ##### WARNING
 
 > * do not run unifiedbeat on Security Onion
     * unless ElasticSearch is running on the same server, as in ```127.0.0.1:9200```
