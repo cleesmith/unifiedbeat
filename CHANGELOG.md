@@ -34,9 +34,11 @@
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 * todos:
-  * ensure all ```fmt.Print```'s are changed to ```logp.Info```'s
-  * remove **quit** channel code and replace with **isAlive** boolean
-    * how to wait for spool/publish during _graceful termination_ ?
+  * how best to wait for spool/publish so there's a _graceful shutdown_ ?
+  * ~~remove **quit** channel code
+    * ~~replace with **isSpooling** boolean~~
+    * ~~**spoolTimeout** is 5 seconds, but may override with ```spooler_timeout:```~~
+  * ~~ensure all ```fmt.Print```'s are changed to ```logp.Info```'s~~
   * ~~create a Linux 64bit binary release file~~ [_done Feb 19, 2016_]
 * concerns:
   * deleting the unified2 being tailed causes unifiedbeat to exit immediately

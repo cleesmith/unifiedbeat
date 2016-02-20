@@ -37,7 +37,7 @@ sensor:
 
   # Configure spool timeout to wait for spool/publish to gracefully terminate.
   # The default is 5 seconds, increase if spool/publish takes longer to finish.
-  #spooler_timeout: 5
+  #spooler_timeout: 1
 
 ############################# Output ##########################################
 
