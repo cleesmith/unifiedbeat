@@ -9,30 +9,18 @@
 ##### deleted all of the existing code
   * it was based on a clone of filebeat (_which is great for syslogs, but not unified2 files_)
   * originally, cloning filebeat was a good choice
-    * given a server might be used to monitor data from multiple sensors
-    * however, it is **much simpler to just execute a unifiedbeat process** for each sensor
-    * after all, each sensor:
-      * may have a different set of rules
-      * different file locations and prefix names
-      * can be monitored and managed (_started, stopped, or archived_) individually
 
 ##### designed and rewrote the entire project
 * it is much simpler, more readable, and more appropriate for unified2 files
 * the issue with excessive CPU usage (_70+% on all cores_) has disappeared
 * followed the [Beats development guide](https://www.elastic.co/guide/en/beats/libbeat/current/new-beat.html)
-* upgraded to Go 1.5.3 (_sheesh! 1.6 was just released_)
 * dependencies:
-  * 1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat) -- _to beat, or not to beat ..._
-  * 2. [gopacket](https://github.com/google/gopacket) -- for the ```packet_dump``` field with it's thorough packet details
+  * 1. [libbeat](https://github.com/elastic/beats/tree/master/libbeat)
+  * 2. [gopacket](https://github.com/google/gopacket) -- for the ```packet_dump``` field
   * 3. [geoip2-golang](https://github.com/oschwald/geoip2-golang) -- to geocode IP v4/6 addresses
   * 4. [go-unified2](https://github.com/cleesmith/go-unified2) -- to read and spool unified2 files
     * this is a fork of the original [go-unified2](https://github.com/jasonish/go-unified2)
     * with changes for the registrar feature
-      * to update a **bookmark** file -- **.unifiedbeat**
-      * which tracks the **offset** into the unified2 file that's currently being tailed
-      * the bookmark file is only written to disk upon _graceful_ program termination
-        * otherwise the offset is kept in memory, which avoids constantly writing to disk
-        * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
 
 ***
 
