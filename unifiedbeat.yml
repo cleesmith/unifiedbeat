@@ -184,7 +184,7 @@ output:
   ### Console output
   # console:
     # Pretty print json event
-    #pretty: false
+    # pretty: true
 
 
 ############################# Shipper #########################################

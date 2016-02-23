@@ -33,38 +33,6 @@
       * the bookmark file is only written to disk upon _graceful_ program termination
         * otherwise the offset is kept in memory, which avoids constantly writing to disk
         * so don't _yank the plug_ on the server running unifiedbeat and expect to resume properly
-* todos:
-  * how best to wait for spool/publish so there's a _graceful shutdown_ ?
-    * ~~remove **quit** channel code~~
-    * ~~try with **isSpooling** boolean~~
-      * ~~**spoolTimeout** is 5 seconds, but may override with ```spooler_timeout:```~~
-  * ~~ensure all ```fmt.Print```'s are changed to ```logp.Info```'s~~
-  * ~~create a Linux 64bit binary release file~~ [_done Feb 19, 2016_]
-* concerns:
-  * deleting the unified2 being tailed causes unifiedbeat to exit immediately
-    * why or how would this ever occur?
-    * occurs in ```spoolrecordreader.go```'s ```Name()``` func
-      * error message is _Next: unexpected error reading from..._
-  * don't ```wget https://github.com/cleesmith/unifiedbeat/blob/master/var/GeoIP/GeoLite2-City.mmdb```
-    * instead download **GeoLite2 City** database from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geolite2/)
-  * how to install/upgrade Go
-    * without using gvm, but manually
-  * how to best handle dependencies:
-    * **vendor** all dependencies (_lockdown project to the **known and working**_)
-    * godep doesn't seem to work with gvm
-    * use glide ?
-  * it's unfortunate that installs, upgrades, and dependencies are still a pain (_just like in ruby, python, or whatever_)
-  * don't run unifiedbeat on Security Onion (SO)
-    * otherwise, snort triggers an alert for every request/response to/from a remote ElasticSearch server
-    * the result is an _endless loop of indexing_ which never ends
-    * after all, sensors are suppose to watch inbound/outbound network traffic
-    * a fix may be to install and run ES on the same server as the sensor
-      * test this by installing ES on SO at ```127.0.0.1:9200```
-    * or stop Snort while running unifiedbeat
-      * to stop snort on SO do ```sudo nsm_sensor_ps-stop```
-    * a fix may be to edit the rules to not trigger these alerts (_probably not a good idea_)
-      * see: [Managing Alerts](https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions)
-    * also, this is probably true when forwarding to Logstash (_but was not tested_)
 
 ***
 

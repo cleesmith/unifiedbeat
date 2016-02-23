@@ -4,119 +4,18 @@ Unifiedbeat reads records from [Unified2](http://manual.snort.org/node44.html) b
 Unified2 files are created by [IDS/IPS software](https://en.wikipedia.org/wiki/Intrusion_prevention_system)
 such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/).
 
-Perform simple searching with [U2Search](https://github.com/cleesmith/u2search).
-
-> #### More
->
-> * [Protect the Box](https://medium.com/@cleesmith/protect-the-box-c245acbaae81#.59j14oijl)
-> * [From F to U and back again](https://medium.com/@cleesmith/from-f-to-u-and-back-again-9a021d643053#.l5qhab260)
-
-> #### Note
->
-> This version is no longer based on a clone of Filebeat, but follows the Beats development guide.
->
-> See **CHANGELOG.md**
-
 ***
 
 ### February 18, 2016
 
 #### Usage
 
-1. build from source:
-  * ```git clone https://github.com/cleesmith/unifiedbeat```
-  * ```cd unifiedbeat```
-  * ```go build```
-    * if building for linux 64bit platform but on a mac do the following to cross-compile:
-      * ```env GOOS=linux GOARCH=amd64 go build```
-1. ```mkdir unifiedbeat```
-1. ```cd unifiedbeat```
-1. copy or scp the unifiedbeat binary file to the unifiedbeat folder
+1. build from source
 1. ```curl -XPUT 'http://localhost:9200/_template/unifiedbeat' -d@etc/unifiedbeat.template.json```
-1. ```rm .unifiedbeat``` if exists ... this file tracks the previous positions within the unified2 files being tailed and indexed
-1. ```vim etc/unifiedbeat.yml``` then change:
-  * **sensor**:
-    * **unified2_path**: _?_  _... where are the unified2 files, typically: /var/log/snort/snort.log*_
-    * **unified2_prefix**: _?_  _... for example: "snort.log" or "snort.unified2"_
-    * **rules**:
-      * **gen_msg_map_path**: _?_  _... the absolute full path, typically: /etc/snort/gen-msg.map_
-      * **paths**: _?_  _... where are the .rules files, typically: /etc/snort/rules/*.rules_
-    * **fields**: _... add fixed/known details about this sensor_
-  * . &nbsp; . &nbsp; .
-  * **output**:
-    * **elasticsearch**:
-      * **hosts**: ["**?.?.?.?:9200**"]  _... elasticsearch's ip:port_
-1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml``` ... this is not required but typical
+1. edit ```etc/unifiedbeat.yml```
+1. ```cp etc/unifiedbeat.yml /etc/unifiedbeat.yml```
 1. **./unifiedbeat** -c /etc/unifiedbeat.yml
-  * this command should be in a systemd, Upstart, or SysV (init.d) script
-  * but for a quick test do:
-    * ```nohup ./unifiedbeat -c /etc/unifiedbeat.yml &```
-    * ```ps aux | grep -i unifiedbeat``` ... remember it's **pid**, so you can kill it later
-    * use curl, sense, or kibana to look at the indices in elasticsearch
-    * ```kill ?pid?``` ... when done testing
-1. now, use Kibana to see what's up with your host and network, then sleep better at night
-
-> ##### WARNING
-
-> * do not run unifiedbeat on Security Onion (SO)
-    * otherwise, snort triggers an alert for every request/response to/from a remote ElasticSearch server
-    * the result is an _endless loop of indexing_ which never ends
-    * after all, sensors are suppose to watch inbound/outbound network traffic
-    * a fix may be to install and run ES on the same server as the sensor
-      * test this by installing ES on SO at ```127.0.0.1:9200```
-    * or stop Snort while running unifiedbeat
-      * to stop snort on SO do ```sudo nsm_sensor_ps-stop```
-    * a fix may be to edit the rules to not trigger these alerts (_probably not a good idea_)
-      * see: [Managing Alerts](https://github.com/Security-Onion-Solutions/security-onion/wiki/ManagingAlerts#suppressions)
-    * also, this is probably true when forwarding to Logstash (_but was not tested_)
-
-***
-
-#### Overview
-
-![Overview](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/unifiedbeat.png "overview of unifiedbeat")
-
-***
-
-### Kibana screenshots
-
-![Dashboard](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/kibana_dashboard.png "example Kibana dashboard")
-
-> this is just a simple example of a Kibana dashboard and not very useful for security analysts
-
-> see kibana/export.json to import the provided dashboard, search, and visualizations into Kibana
-
-> new to Kibana? this YouTube [playlist](https://www.youtube.com/playlist?list=PLhLSfisesZIvA8ad1J2DSdLWnTPtzWSfI) is helpful
-
-***
-
-#### Event record as shown in Kibana's Discover
-
-![Event](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/kibana_event_record.png "Kibana Discover event record")
-
-> notice the **signature** and **rule_raw** fields
-
-***
-
-#### Packet record as shown in Kibana's Discover
-
-![Packet](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/kibana_packet_record.png "Kibana Discover packet record")
-
-> notice the human readable **packet_dump** field with all layers shown in both hex and text
-
-***
-
-### Sense screenshots
-
-#### Event type document in ElasticSearch
-
-![Event](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/unifiedbeat_event.png "typical Event type document in ElasticSearch")
-
-***
-
-#### Packet type document in ElasticSearch
-
-![Packet](https://raw.githubusercontent.com/cleesmith/unifiedbeat/master/screenshots/unifiedbeat_packet.png "typical Packet type document in ElasticSearch")
+1. use Kibana to see what's up with your host and network
 
 ***
 ***
