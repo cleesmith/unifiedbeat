@@ -12,8 +12,8 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 
 1. build from source
 1. ```curl -XPUT 'http://localhost:9200/_template/unifiedbeat' -d@etc/unifiedbeat.template.json```
-1. edit ```etc/unifiedbeat.yml```
-1. **./unifiedbeat** -c /etc/unifiedbeat.yml
+1. edit ```unifiedbeat.yml```
+1. **./unifiedbeat** -c unifiedbeat.yml
 
 ***
 ***
