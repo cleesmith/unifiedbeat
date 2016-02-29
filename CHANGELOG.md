@@ -2,6 +2,19 @@
 
 ***
 
+### v2.0.1 2016-02-28
+
+#### Changes
+
+* build and test using Go 1.6
+* fix ```reflect+anonymous+unexported``` bug in ```gopacket```'s ```packet.go```
+  * [gopacket issue](https://github.com/google/gopacket/issues/175)
+* use godep to vendor dependencies
+  * as Elastic Beats continues to change rapidly
+  * fix for gopacket
+
+***
+
 ### v2.0.0 2016-02-18
 
 #### Changes

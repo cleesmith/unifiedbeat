@@ -34,7 +34,7 @@ import (
 )
 
 var Name = "unifiedbeat"
-var Version = "2.0.0"
+var Version = "2.0.1"
 
 func main() {
 	if err := beat.Run(Name, Version, unifiedbeat.New()); err != nil {

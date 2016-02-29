@@ -1,0 +1,108 @@
+{
+	"ImportPath": "github.com/cleesmith/unifiedbeat",
+	"GoVersion": "go1.6",
+	"Deps": [
+		{
+			"ImportPath": "github.com/Shopify/sarama",
+			"Comment": "v1.8.0-17-g8aadb47",
+			"Rev": "8aadb476e66ca998f2f6bb3c993e9a2daa3666b9"
+		},
+		{
+			"ImportPath": "github.com/cleesmith/go-unified2",
+			"Comment": "20140127-34-g833ecbd",
+			"Rev": "833ecbd754de334e591f3913bed0c9181188f0de"
+		},
+		{
+			"ImportPath": "github.com/dustin/go-humanize",
+			"Rev": "8929fe90cee4b2cb9deb468b51fb34eba64d1bf0"
+		},
+		{
+			"ImportPath": "github.com/eapache/go-resiliency/breaker",
+			"Comment": "v1.0.0-4-gb86b1ec",
+			"Rev": "b86b1ec0dd4209a588dc1285cdd471e73525c0b3"
+		},
+		{
+			"ImportPath": "github.com/eapache/queue",
+			"Comment": "v1.0.2",
+			"Rev": "ded5959c0d4e360646dc9e9908cff48666781367"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/beat",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/cfgfile",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/common",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/logp",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/outputs",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/publisher",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/elastic/beats/libbeat/service",
+			"Comment": "v1.1.1-503-g6daa4b7",
+			"Rev": "6daa4b795928756c19747eedbc76c14584c5a3f4"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Rev": "a47585eaae68b1d14b02940d2af1b9194f3caa9c"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Rev": "a47585eaae68b1d14b02940d2af1b9194f3caa9c"
+		},
+		{
+			"ImportPath": "github.com/golang/snappy",
+			"Rev": "723cc1e459b8eea2dea4583200fd60757d40097a"
+		},
+		{
+			"ImportPath": "github.com/google/gopacket",
+			"Comment": "v1.1.11-79-g3b097a3",
+			"Rev": "3b097a3f06f4af581aed40162263ac34e636381e"
+		},
+		{
+			"ImportPath": "github.com/klauspost/crc32",
+			"Rev": "19b0b332c9e4516a6370a0456e6182c3b5036720"
+		},
+		{
+			"ImportPath": "github.com/nranchev/go-libGeoIP",
+			"Rev": "c78e8bd2dd3599feb21fd30886043979e82fe948"
+		},
+		{
+			"ImportPath": "github.com/oschwald/geoip2-golang",
+			"Comment": "v0.1.0-23-gbf3c252",
+			"Rev": "bf3c2529e7f0619767568752f5155dd9c5125426"
+		},
+		{
+			"ImportPath": "github.com/oschwald/maxminddb-golang",
+			"Comment": "v0.2.0-36-gb4a9635",
+			"Rev": "b4a963502ba01ab44940ee21d5539bd65c726924"
+		},
+		{
+			"ImportPath": "github.com/satori/go.uuid",
+			"Rev": "e673fdd4dea8a7334adbbe7f57b7e4b00bdc5502"
+		},
+		{
+			"ImportPath": "gopkg.in/yaml.v2",
+			"Rev": "7ad95dd0798a40da1ccdff6dff35fd177b5edf40"
+		}
+	]
+}

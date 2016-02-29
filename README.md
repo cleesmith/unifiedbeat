@@ -6,8 +6,6 @@ such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/)
 
 ***
 
-### February 18, 2016
-
 #### Usage
 
 1. build from source
