@@ -4,6 +4,11 @@ Unifiedbeat reads records from [Unified2](http://manual.snort.org/node44.html) b
 Unified2 files are created by [IDS/IPS software](https://en.wikipedia.org/wiki/Intrusion_prevention_system)
 such as [Snort](https://www.snort.org/) and [Suricata](http://suricata-ids.org/).
 
+> In addition to using Kibana, a GoLang web app called [Pakquery](https://github.com/cleesmith/pakquery)
+> is also available for searching within the data indexed by unifiedbeat. Pakquery's searches
+> use the same simple Lucene syntax as in Kibana. However, pakquery is aware of the connection
+> between **event and packet record types** based on the **event_id** field.
+
 ***
 
 #### Usage
